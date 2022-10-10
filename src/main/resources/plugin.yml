@@ -1,0 +1,11 @@
+name: Raft
+version: '${project.version}'
+main: me.abetgt.raft.Raft
+api-version: 1.19
+authors: [ AbeTGT ]
+description: A plugin that allows you to create things with your imagination.
+website: https://oasisnetwork.cf
+commands:
+  raft:
+    description: The raft command.
+    usage: /raft <argument>
