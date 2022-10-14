@@ -4,7 +4,8 @@ import java.util.HashMap;
 
 public class RaftVariable {
 
-    HashMap<String, String> variableListString = new HashMap<String, String>();
+    // Fixed warning: Warning:(7, 62) Explicit type argument String, String can be replaced with <>
+    HashMap<String, String> variableListString = new HashMap<>();
 
     public RaftVariable(){}
 
