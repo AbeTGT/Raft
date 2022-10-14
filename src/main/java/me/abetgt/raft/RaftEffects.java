@@ -113,5 +113,16 @@ public class RaftEffects {
             } else {
                 log_noPlayer("\"execute player command\"");
             }
+        } if (config.contains(c + "create a temp string variable named")) {
+            RaftVariable variable = new RaftVariable();
+            variable.createVariable(config.getString(c + "create a temp string variable named"));
+        } if (config.contains(c + "execute console command with variable")) {
+            String configString = config.getString(c + "execute console command with variable");
+            assert configString != null;
+            String[] splitString = configString.split("%");
+            Bukkit.getConsoleSender().sendMessage("Raft Split Strings: ");
+            for (String t : splitString){
+                Bukkit.getConsoleSender().sendMessage(t);
+            }
         }
 }}

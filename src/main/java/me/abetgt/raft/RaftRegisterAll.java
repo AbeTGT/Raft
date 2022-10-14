@@ -5,18 +5,14 @@
  */
 package me.abetgt.raft;
 
-import me.abetgt.raft.events.block.EvtBlockBreak;
-import me.abetgt.raft.events.block.EvtBlockDispense;
-import me.abetgt.raft.events.block.EvtBlockPlace;
+import me.abetgt.raft.custom.BetterRTP.events.EvtRTPTeleportPostEvent;
+import me.abetgt.raft.events.block.*;
 import me.abetgt.raft.events.player.*;
 // import me.abetgt.raft.events.player.bucket.EvtPlayerBucket;
 import me.abetgt.raft.events.player.bucket.EvtPlayerBucketFill;
 import me.abetgt.raft.events.player.world.EvtPlayerChangeWorld;
 import me.abetgt.raft.util.RaftMisc;
 import org.bukkit.Bukkit;
-
-import java.lang.reflect.Method;
-import java.util.HashMap;
 
 public class RaftRegisterAll {
     static Raft raftInstance = Raft.getRaftInstance();
@@ -138,6 +134,14 @@ public class RaftRegisterAll {
         // Block Dispense
         if (RaftMisc.classExists("org.bukkit.event.block.BlockDispenseEvent")){
             Bukkit.getServer().getPluginManager().registerEvents(new EvtBlockDispense(), raftInstance);
+            registeredListeners = registeredListeners + 1;
+        }
+
+        // BetterRTP
+
+        // Player Post Teleport
+        if (RaftMisc.classExists("me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEvent")){
+            Bukkit.getServer().getPluginManager().registerEvents(new EvtRTPTeleportPostEvent(), raftInstance);
             registeredListeners = registeredListeners + 1;
         }
 

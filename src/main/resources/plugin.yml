@@ -5,6 +5,8 @@ api-version: 1.19
 authors: [ AbeTGT ]
 description: A plugin that allows you to create things with your imagination.
 website: https://oasisnetwork.cf
+softdepend:
+  - BetterRTP
 commands:
   raft:
     description: The raft command.

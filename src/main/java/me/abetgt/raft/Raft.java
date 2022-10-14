@@ -24,6 +24,8 @@ public final class Raft extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         // Plugin startup
+        // Enable listeners from this class
+        getServer().getPluginManager().registerEvents(this, this);
         // Calculate start time. This will be the start of the "Completed" time.
         long start = System.currentTimeMillis();
         Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "[&aRaft&r] Loading Raft v&a" + getDescription().getVersion()));
@@ -53,6 +55,7 @@ public final class Raft extends JavaPlugin implements Listener {
         // Finish
         Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "[&aRaft&r] Successfully registered " + registered + " events!"));
         Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "[&aRaft&r] Completed in " + now + "s!"));
+        if (RaftConfig.hasContent()) Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "[&aRaft&r] No script content found, maybe you should write some ;)"));
     }
 
     @EventHandler

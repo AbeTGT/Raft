@@ -9,6 +9,8 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.io.IOException;
 
+import static me.abetgt.raft.RaftEvents.config;
+
 public class RaftConfig {
 
     private static File file;
@@ -35,13 +37,36 @@ public class RaftConfig {
         }
     }
 
+    public static boolean hasContent(){
+        if (config.getKeys(true).size() == 0){
+            return true;
+        }
+        return false;
+    }
+
     public static void reload(Player player){
         try {
+            for (String key : config.getKeys(true)){
+                Bukkit.getConsoleSender().sendMessage("Raft Key Loader: Loaded key \"" + key + "\"");
+                if (!(player == null)){
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a&lRaft >> &rRaft Key Loader: Loaded key \"" + key + "\""));
+                }
+            }
+            try {
+                customFile.save(file);
+            } catch (IOException ignored){}
             customFile = YamlConfiguration.loadConfiguration(file);
             Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "[&aRaft&r] Successfully reloaded config."));
             if (!(player == null)){
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a&lRaft >> &rSuccessfully reloaded config."));
             }
+            for (String key : config.getKeys(true)){
+                Bukkit.getConsoleSender().sendMessage("Raft Key Loader: Loaded key \"" + key + "\"");
+                if (!(player == null)){
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a&lRaft >> &rRaft Key Loader: Loaded key \"" + key + "\""));
+                }
+            }
+
         } catch (IllegalArgumentException exception){
             Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "[&aRaft&r] Couldn't reload config; config returned null."));
             if (!(player == null)){

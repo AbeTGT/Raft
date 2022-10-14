@@ -29,22 +29,6 @@
                     <target>${java.version}</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
         <resources>
             <resource>
@@ -76,6 +60,13 @@
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
             <version>0.10.2</version>
+        </dependency>
+        <dependency>
+            <groupId>me.SuperRonanCraft</groupId>
+            <artifactId>BetterRTP</artifactId>
+            <version>3.4.5</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/externaljars/BetterRTP-3.4.5.jar</systemPath>
         </dependency>
     </dependencies>
 </project>
