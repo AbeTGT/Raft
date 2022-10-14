@@ -70,6 +70,7 @@ public class RaftEffects {
             }
         } if (config.contains(c + "broadcast")) {
             if (!(player == null)) {
+                // TODO: Workaround for deprecated broadcastMessage on Paper
                 Bukkit.broadcastMessage(Objects.requireNonNull(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(config.getString(event + ".broadcast")))));
             } else {
                 log_noPlayer("\"broadcast\"");
