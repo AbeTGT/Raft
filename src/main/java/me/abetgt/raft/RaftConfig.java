@@ -41,10 +41,8 @@ public class RaftConfig {
     }
 
     public static boolean hasContent(){
-        if (config.getKeys(true).size() == 0){
-            return true;
-        }
-        return false;
+        // Fixed warning: Warning:(41, 9) 'if' statement can be simplified
+        return config.getKeys(true).size() == 0;
     }
 
     public static void reload(Player player){
