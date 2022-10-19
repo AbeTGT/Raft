@@ -35,6 +35,7 @@ public class RaftEffects {
 
     static ArrayList<String> effectSyntaxList = new ArrayList<>();
 
+    // TODO: Make this system more efficient
     public static void runEffects(Player player, String event, Event chosenEvent){
         // c = the key for the config
         String c = event + ".";
@@ -70,6 +71,7 @@ public class RaftEffects {
             }
         } if (config.contains(c + "broadcast")) {
             if (!(player == null)) {
+                // TODO: Workaround for deprecated broadcastMessage on Paper
                 Bukkit.broadcastMessage(Objects.requireNonNull(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(config.getString(event + ".broadcast")))));
             } else {
                 log_noPlayer("\"broadcast\"");
@@ -113,6 +115,7 @@ public class RaftEffects {
             } else {
                 log_noPlayer("\"execute player command\"");
             }
+        // TODO: Fix this below
         } if (config.contains(c + "create a temp string variable named")) {
             RaftVariable variable = new RaftVariable();
             variable.createVariable(config.getString(c + "create a temp string variable named"));
