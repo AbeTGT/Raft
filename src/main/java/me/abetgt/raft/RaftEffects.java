@@ -27,7 +27,7 @@ import java.util.Objects;
  * @version 1.0
  */
 public class RaftEffects {
-    static Raft instance = Raft.getRaftInstance();
+    static Raft raftInstance = Raft.getRaftInstance();
     static FileConfiguration config = Raft.getScriptConfig();
 
     public static void log_noPlayer(String effect){
@@ -147,13 +147,13 @@ public class RaftEffects {
                 public void run(){
                     completelyRunEffects(player, event, chosenEvent);
                 }
-            }.runTaskLater(instance, configInt);
+            }.runTaskLater(raftInstance, configInt);
         } if (config.contains(c + "wait seconds")) {
             new BukkitRunnable(){
                 public void run(){
                     completelyRunEffects(player, event, chosenEvent);
                 }
-            }.runTaskLater(instance, configInt * 20L);
+            }.runTaskLater(raftInstance, configInt * 20L);
         } else {
             completelyRunEffects(player, event, chosenEvent);
         }
