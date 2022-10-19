@@ -6,10 +6,11 @@
 package me.abetgt.raft;
 
 import me.abetgt.raft.custom.BetterRTP.events.EvtRTPTeleportPostEvent;
+import me.abetgt.raft.events.PaperEvents;
 import me.abetgt.raft.events.block.*;
 import me.abetgt.raft.events.player.*;
-// import me.abetgt.raft.events.player.bucket.EvtPlayerBucket;
 import me.abetgt.raft.events.player.bucket.EvtPlayerBucketFill;
+import me.abetgt.raft.events.player.bucket.entity.EvtPlayerBucketAxolotl;
 import me.abetgt.raft.events.player.world.EvtPlayerChangeWorld;
 import me.abetgt.raft.util.RaftMisc;
 import org.bukkit.Bukkit;
@@ -117,6 +118,12 @@ public class RaftRegisterAll {
             registeredListeners = registeredListeners + 1;
         }
 
+        // Player Damage
+        if (RaftMisc.classExists("org.bukkit.event.entity.EntityDamageEvent")){
+            Bukkit.getServer().getPluginManager().registerEvents(new EvtPlayerDamage(), raftInstance);
+            registeredListeners = registeredListeners + 1;
+        }
+
         // Block Related Events
 
         // Block Break
@@ -137,11 +144,24 @@ public class RaftRegisterAll {
             registeredListeners = registeredListeners + 1;
         }
 
+        // Entity Related Events
+
+        // Player Bucket Axolotl
+        if (RaftMisc.classExists("org.bukkit.event.player.PlayerBucketEntityEvent")){
+            Bukkit.getServer().getPluginManager().registerEvents(new EvtPlayerBucketAxolotl(), raftInstance);
+            registeredListeners = registeredListeners + 1;
+        }
+
         // BetterRTP
 
         // Player Post Teleport
         if (RaftMisc.classExists("me.SuperRonanCraft.BetterRTP.references.customEvents.RTP_TeleportPostEvent")){
             Bukkit.getServer().getPluginManager().registerEvents(new EvtRTPTeleportPostEvent(), raftInstance);
+            registeredListeners = registeredListeners + 1;
+        }
+
+        if (RaftMisc.classExists("io.papermc.paper.event.player.PlayerTradeEvent")){
+            Bukkit.getServer().getPluginManager().registerEvents(new PaperEvents(), raftInstance);
             registeredListeners = registeredListeners + 1;
         }
 

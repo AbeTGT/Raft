@@ -8,24 +8,26 @@ package me.abetgt.raft;
 
 import me.abetgt.raft.util.BetterLogger;
 import me.abetgt.raft.util.RaftMisc;
+import me.abetgt.raft.util.command.RegisterCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 /**
- * RaftEffects is used to make the effects (e.g set player up velocity to/set the player's health to).
+ * RaftEffects is used to make the effects (e.g. set player up velocity to/set the player's health to).
  * @author AbeTGT
  * @since 3/10/2022
  * @version 1.0
  */
 public class RaftEffects {
+    static Raft instance = Raft.getRaftInstance();
     static FileConfiguration config = Raft.getScriptConfig();
 
     public static void log_noPlayer(String effect){
@@ -33,9 +35,7 @@ public class RaftEffects {
         Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "[&aRaft&r] &cEffect attempt: " + effect));
     }
 
-    static ArrayList<String> effectSyntaxList = new ArrayList<>();
-
-    public static void runEffects(Player player, String event, Event chosenEvent){
+    private static void completelyRunEffects(Player player, String event, Event chosenEvent){
         // c = the key for the config
         String c = event + ".";
         if (config.contains(c + "set player up velocity to")) {
@@ -76,6 +76,10 @@ public class RaftEffects {
             }
         } if (config.contains(c + "cancel event")) {
             String chosenString = config.getString(event + "." + "cancel event");
+            if (chosenEvent == null){
+                BetterLogger logger = new BetterLogger("", true);
+                logger.log("[&aRaft&r] &cThe event does not exist. This could possibly be because of a command.");
+            }
             if (chosenEvent instanceof Cancellable){
                 if (Objects.equals(chosenString, "now") || Objects.equals(chosenString, "")){
                     ((Cancellable) chosenEvent).setCancelled(true);
@@ -85,7 +89,7 @@ public class RaftEffects {
                             true);
                     betterLogger.log("[&aRaft&r] &cAn error occurred: You must provide an argument (either \"now\" or nothing).");
                     betterLogger.log("[&aRaft&r] &cEffect attempt: \"" + event + "\"");
-            }
+                }
             } else {
                 BetterLogger betterLogger = new BetterLogger(
                         "RaftEffects",
@@ -124,5 +128,34 @@ public class RaftEffects {
             for (String t : splitString){
                 Bukkit.getConsoleSender().sendMessage(t);
             }
+        } if (config.contains(c + "create raft command")) {
+            String configString = Objects.requireNonNull(config.getString(c + "create raft command"));
+            RegisterCommand registered = new RegisterCommand();
+            registered.registerCommands(configString);
+            BetterLogger logger = new BetterLogger("", true);
+            logger.log("Raft: Done effect create");
         }
-}}
+    }
+
+    public static void runEffects(Player player, String event, Event chosenEvent) {
+        // c = the key for the config
+        String c = event + ".";
+        int configInt = config.getInt(c + "wait ticks");
+
+        if (config.contains(c + "wait ticks")) {
+            new BukkitRunnable(){
+                public void run(){
+                    completelyRunEffects(player, event, chosenEvent);
+                }
+            }.runTaskLater(instance, configInt);
+        } if (config.contains(c + "wait seconds")) {
+            new BukkitRunnable(){
+                public void run(){
+                    completelyRunEffects(player, event, chosenEvent);
+                }
+            }.runTaskLater(instance, configInt * 20L);
+        } else {
+            completelyRunEffects(player, event, chosenEvent);
+        }
+    }
+}

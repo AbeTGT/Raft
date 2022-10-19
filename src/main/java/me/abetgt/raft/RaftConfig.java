@@ -20,7 +20,9 @@ public class RaftConfig {
         file = new File(Raft.getRaftDataFolder(), "script.yml");
 
         if (!file.exists()){
-            try {file.createNewFile();} catch (IOException ignore){}
+            try {file.createNewFile();} catch (IOException ignore){
+                ignore.printStackTrace();
+            }
         }
         customFile = YamlConfiguration.loadConfiguration(file);
     }
