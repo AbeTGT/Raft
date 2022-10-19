@@ -20,10 +20,7 @@ public class RaftConfig {
         file = new File(Raft.getRaftDataFolder(), "script.yml");
 
         if (!file.exists()){
-            // Fixed warning: Warning:(23, 23) Result of 'File.createNewFile()' is ignored
-            try {file.createNewFile();} catch (IOException exception){
-                exception.printStackTrace();
-            }
+            try {file.createNewFile();} catch (IOException ignore){}
         }
         customFile = YamlConfiguration.loadConfiguration(file);
     }
@@ -41,8 +38,10 @@ public class RaftConfig {
     }
 
     public static boolean hasContent(){
-        // Fixed warning: Warning:(41, 9) 'if' statement can be simplified
-        return config.getKeys(true).size() == 0;
+        if (config.getKeys(true).size() == 0){
+            return true;
+        }
+        return false;
     }
 
     public static void reload(Player player){
